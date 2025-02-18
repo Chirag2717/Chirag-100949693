@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-    res.send('Assignment 2 – 100949693');
+    res.send('Hello from Cloud Run!');
 });
 
 app.listen(PORT, () => {
