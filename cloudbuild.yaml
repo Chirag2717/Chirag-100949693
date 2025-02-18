@@ -7,15 +7,18 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA']
 
-  # Step 3: Deploy to Cloud Run
-
+  # Step 3: Deploy to Cloud Run (Fixed)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-
     entrypoint: gcloud
-
-    args: ['run', 'deploy', 'chirag-100949693-service', '--image', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:${COMMIT_SHA}', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
- 
- 
+    args:
+      - 'run'
+      - 'deploy'
+      - 'gcp-app'
+      - '--image=us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=8080' 
 
 options:
-  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+  logging: CLOUD_LOGGING_ONLY
