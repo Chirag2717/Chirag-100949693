@@ -1,20 +1,11 @@
-# Use a stable Node.js version
-FROM node:18-alpine
+FROM node:19.7.0-alpine
 
-# Set working directory
-WORKDIR /app
+ENV NODE_ENV production
+RUN mkdir /labone/ && chown node:node /labone/
+WORKDIR /labone/
+USER node
+COPY --chown=node:node . .
+RUN npm install
 
-# Copy package.json before installing dependencies
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm install --only=production
-
-# Copy remaining application files
-COPY . .
-
-# Expose port 8080 (Cloud Run defaults to this port)
-EXPOSE 8080
-
-# Start the application
-CMD ["node", "src/index.js"]
+EXPOSE 3000
+CMD node src/index.js
