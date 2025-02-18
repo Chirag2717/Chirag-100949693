@@ -1,30 +1,30 @@
-# Use an official Node.js runtime as a parent image
+# ✅ Use an official Node.js runtime as a parent image
 FROM node:18-alpine
 
-# Set environment variables
+# ✅ Set environment variables
 ENV NODE_ENV=production
 ENV PORT=8080  
 
-# Set the working directory
+# ✅ Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# ✅ Copy package.json and package-lock.json first to leverage Docker cache
 COPY package*.json ./
 
-# Install dependencies
+# ✅ Install dependencies
 RUN npm install --only=production
 
-# Copy the rest of the application files
+# ✅ Copy the rest of the application files
 COPY . .
 
-# Change ownership to avoid permission issues
+# ✅ Change ownership to avoid permission issues
 RUN chown -R node:node /app
 
-# Switch to a non-root user
+# ✅ Switch to a non-root user for security
 USER node
 
-# Expose the port Cloud Run expects
+# ✅ Expose the port Cloud Run expects
 EXPOSE 8080
 
-# Start the application
+# ✅ Start the application
 CMD ["node", "src/index.js"]
