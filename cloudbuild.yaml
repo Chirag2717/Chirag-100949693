@@ -1,11 +1,11 @@
 steps:
   # Step 1: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/image:{{COMMIT_SHA}}', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/image:$COMMIT_SHA', '.']
  
   # Step 2: Push Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/image:{{COMMIT_SHA}}']
+    args: ['push', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/image:$COMMIT_SHA']
 
 options:
   logging: CLOUD_LOGGING_ONLY
