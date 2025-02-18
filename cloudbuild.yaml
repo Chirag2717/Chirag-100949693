@@ -1,9 +1,23 @@
 steps:
+  # Step 1: Build Docker Image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA', '.']
+
+  # Step 2: Push Docker Image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA']
+
+  # Step 3: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gcloud', 'run', 'deploy', 'gcp-app', '--image', 'us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA', '--region', 'us-central1']
+    args:
+      - 'run'
+      - 'deploy'
+      - 'gcp-app'
+      - '--image=us-central1-docker.pkg.dev/coral-style-451220-j4/chirag-100949693/app:$COMMIT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=8080' # ✅ Ensure this is correct
+
 options:
-  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+  logging: CLOUD_LOGGING_ONLY
