@@ -1,29 +1,29 @@
-# Use stable Node.js version
+# Use a lightweight Node.js image
 FROM node:18-alpine
 
-# Set environment to production
+# Set environment variable for production mode
 ENV NODE_ENV=production
 
-# Create and set working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json first (Improves caching for dependencies)
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (Only production dependencies)
 RUN npm install --only=production
 
-# Copy application files after dependencies (Efficient caching)
+# Copy the rest of the application
 COPY . .
 
-# Set correct permissions for the node user
+# Ensure the correct ownership (optional)
 RUN chown -R node:node /app
 
-# Set non-root user for security
+# Set user to avoid root permissions
 USER node
 
-# Expose port 8080 (Cloud Run default)
+# Expose the correct port
 EXPOSE 8080
 
-# Start the Node.js application
+# Start the application
 CMD ["node", "src/index.js"]
