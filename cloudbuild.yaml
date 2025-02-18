@@ -17,7 +17,7 @@ steps:
       - '--region=us-central1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--port=8080' # ✅ Ensure this is correct
+      - '--port=8080' 
 
 options:
   logging: CLOUD_LOGGING_ONLY
